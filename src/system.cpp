@@ -25,23 +25,24 @@ Processor& System::Cpu() {
 vector<Process>& System::Processes() {
     vector<int> pids = LinuxParser::Pids();
 
-    // // Based on Lecture Video 4.14
-
-    set<int> extant_pids;
+    // Based on Lecture Video 4.14
+    set<int> e_pids;
     for (Process const& process:processes_){
-        extant_pids.insert(process.Pid());
+        e_pids.insert(process.Pid());
     } 
 
+    // Based on Lecture Video 4.14
     for (int pid:pids){
-        if (extant_pids.find(pid) == extant_pids.end()){
+        if (e_pids.find(pid) == e_pids.end()){
             processes_.emplace_back(pid);
         }     
     }
     
+    // Based on Lecture Video 4.14
     for (auto& process : processes_){
-        process.CpuUtilization();
+        process.CpuUtilization(); // Update process's CPU utilization ?? Cause of segmetation fault
     }
-    std::sort(processes_.begin(),processes_.end()); 
+    std::sort(processes_.begin(),processes_.end(),std::less<Process>()); 
     
     return processes_; 
 }

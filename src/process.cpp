@@ -31,17 +31,21 @@ float Process::CpuUtilization() const {
     // System Time: (secs)
     long utime = LinuxParser::UpTime();
     // Process's Times: (clock ticks)
-    vector<string> ptimes = LinuxParser::pCpuUtilization(pid_);
-    long putime = stol(ptimes[14]);
-    long pstime = stol(ptimes[15]);
-    long pcutime = stol(ptimes[16]);
-    long pcstime = stol(ptimes[17]);
-    long pstartime = stol(ptimes[22]);
+    vector<string> ptimes = LinuxParser::CpuUtilization(pid_);
+    long putime = stol(ptimes[13]);
+    long pstime = stol(ptimes[14]);
+    long pcutime = stol(ptimes[15]);
+    long pcstime = stol(ptimes[16]);
+    long pstartime = stol(ptimes[21]);
     long total_time = putime + pstime + pcutime + pcstime;
     // Time since process started:
     long time_secs = abs(utime - (pstartime/sysconf(_SC_CLK_TCK)));
     // CPU usage percent:
-    return float(total_time/sysconf(_SC_CLK_TCK))/float(time_secs);      
+    if (float(time_secs) == 0.0){
+        return 0.0;
+    } else {
+        return float(total_time/sysconf(_SC_CLK_TCK))/float(time_secs);
+    }
 }
 
 // TODO: Return the command that generated this process
@@ -71,11 +75,11 @@ long int Process::UpTime() {
 // TODO: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function
 bool Process::operator<(Process const& a) const { 
-    // bool ans = (a.CpuUtilization()<CpuUtilization());    
-    return false; 
+    bool ans = (a.CpuUtilization()<CpuUtilization());    
+    return ans; 
 }
 
 bool Process::operator>(Process const& a) const { 
-    //bool ans = (a.CpuUtilization()>CpuUtilization());    
-    return false; 
+    bool ans = (a.CpuUtilization()>CpuUtilization());    
+    return ans; 
 }
