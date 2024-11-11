@@ -221,7 +221,7 @@ string LinuxParser::Ram(int pid) {
       std::istringstream linestream(line);
       while (linestream >> key >> value) {
         if (key == "VmSize:"){
-          mem = (static_cast<int>(0.5+(stof(value)/1000)));
+          mem = (static_cast<int>(0.5+(stol(value)/1024)));
         }
       }
     }
