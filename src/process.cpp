@@ -63,7 +63,7 @@ string Process::Ram() {
 // TODO: Return the user (name) that generated this process
 string Process::User() { 
     //int pid = Pid();
-    return LinuxParser::Uid(pid_); 
+    return LinuxParser::User(pid_); 
 }
 
 // TODO: Return the age of this process (in seconds)
