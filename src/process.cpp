@@ -17,32 +17,32 @@ int Process::Pid() const {
     return pid_; 
 }
 
-float Process::CpuUtilization() const { 
-    return 0.0;     
-}
+// float Process::CpuUtilization() const { 
+//     return 0.0;     
+// }
 
 // TODO: Return this process's CPU utilization
-// float Process::CpuUtilization() const { 
-//     // int pid = Pid();
-//     // long uptime = LinuxParser::UpTime(pid);
-//     // long total_time = (LinuxParser::ActiveJiffies(pid))/sysconf(_SC_CLK_TCK);
-//     // return float(total_time)/float(uptime);
-//     int pid = Pid();
-//     // System Time: (secs)
-//     long utime = LinuxParser::UpTime();
-//     // Process's Times: (clock ticks)
-//     vector<string> ptimes = LinuxParser::pCpuUtilization(pid);
-//     long putime = stol(ptimes[14]);
-//     long pstime = stol(ptimes[15]);
-//     long pcutime = stol(ptimes[16]);
-//     long pcstime = stol(ptimes[17]);
-//     long pstartime = stol(ptimes[22]);
-//     long total_time = putime + pstime + pcutime + pcstime;
-//     // Time since process started:
-//     long time_secs = abs(utime - (pstartime/sysconf(_SC_CLK_TCK)));
-//     // CPU usage percent:
-//     return float(total_time/sysconf(_SC_CLK_TCK))/float(time_secs);      
-// }
+float Process::CpuUtilization() const { 
+    // int pid = Pid();
+    // long uptime = LinuxParser::UpTime(pid);
+    // long total_time = (LinuxParser::ActiveJiffies(pid))/sysconf(_SC_CLK_TCK);
+    // return float(total_time)/float(uptime);
+    // int pid = Pid();
+    // System Time: (secs)
+    long utime = LinuxParser::UpTime();
+    // Process's Times: (clock ticks)
+    vector<string> ptimes = LinuxParser::pCpuUtilization(pid_);
+    long putime = stol(ptimes[14]);
+    long pstime = stol(ptimes[15]);
+    long pcutime = stol(ptimes[16]);
+    long pcstime = stol(ptimes[17]);
+    long pstartime = stol(ptimes[22]);
+    long total_time = putime + pstime + pcutime + pcstime;
+    // Time since process started:
+    long time_secs = abs(utime - (pstartime/sysconf(_SC_CLK_TCK)));
+    // CPU usage percent:
+    return float(total_time/sysconf(_SC_CLK_TCK))/float(time_secs);      
+}
 
 // TODO: Return the command that generated this process
 string Process::Command() { 
